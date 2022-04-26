@@ -46,18 +46,19 @@ int main(int argc, char *argv[]){
                     strcpy(tabelaTipos[tabelaPos], stringTipoToken);
                 }else if(verificaTipoVar(tabelaTipos[tabelaPos-1])==1 || verificaExistenciaId(stringAux, tabelaTokens, tabelaTipos, tabelaPos)==1){
                     // printf("entrou id");
+                    tabelaPos++;
+                    coluna = coluna + auxCol;
                     strcpy(tabelaTipos[tabelaPos], "IDENTIFICADOR");
                 }
-                // else {
-                //     tabelaErroColunas[tabelaPosErr] = coluna+1;
-                //     tabelaErroLinhas[tabelaPosErr] = linha+1;
-                //     strcpy(tabelaErroTokens[tabelaPosErr], stringAux);
-                //     tabelaPosErr++;
-                //     coluna++;
-                // }
+                else {
+                    tabelaErroColunas[tabelaPosErr] = coluna+1;
+                    tabelaErroLinhas[tabelaPosErr] = linha+1;
+                    strcpy(tabelaErroTokens[tabelaPosErr], stringAux);
+                    tabelaPosErr++;
+                    coluna++;
+                }
                 
-                tabelaPos++;
-                coluna = coluna + auxCol;
+                
                 auxCol=0;
   
             }
