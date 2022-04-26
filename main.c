@@ -3,9 +3,9 @@
 
 int main(int argc, char *argv[]){
     int linha=0, coluna=0, auxCol=0, tabelaPos=0, tabelaLinhas[100], tabelaColunas[100];
-    // int tabelaPosErr=0, tabelaErroLinhas[100], tabelaErroColunas[100];
+    int tabelaPosErr=0, tabelaErroLinhas[100], tabelaErroColunas[100];
     char tabelaTokens[100][100], tabelaTipos[100][100];
-    // char tabelaErroTokens[100][100];
+    char tabelaErroTokens[100][100];
     char stringAux[100];
     FILE *arquivo;
     arquivo = fopen(argv[1], "r");
@@ -18,7 +18,7 @@ int main(int argc, char *argv[]){
         ch[1]='\0';
         while(1){
             ch[0]=fgetc(arquivo);
-            printf("\nch: %c\n", ch[0]);
+            // printf("\nch: %c\n", ch[0]);
             if(ch[0]==EOF) break;
 
             if(ch[0]=='\n'){
@@ -28,14 +28,14 @@ int main(int argc, char *argv[]){
 
             if(verificaLetra(ch)!=0){
                 while (verificaAlphaNumerico(ch)!=0){
-                    printf("\nch: %c\n", ch[0]);
+                    // printf("\nch: %c\n", ch[0]);
                     stringAux[auxCol] = ch[0];
                     auxCol++;
                     ch[0]=fgetc(arquivo);
-                    printf("\n%c depois\n", ch[0]);
+                    // printf("\n%c depois\n", ch[0]);
                 }
                 stringAux[auxCol] = '\0';
-                printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
+                // printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
                 tabelaColunas[tabelaPos] = coluna+1;
 
                 tabelaLinhas[tabelaPos] = linha+1;
@@ -45,14 +45,15 @@ int main(int argc, char *argv[]){
                     strcat(stringTipoToken, tabelaTokens[tabelaPos]);
                     strcpy(tabelaTipos[tabelaPos], stringTipoToken);
                 }else if(verificaTipoVar(tabelaTipos[tabelaPos-1])==1 || verificaExistenciaId(stringAux, tabelaTokens, tabelaTipos, tabelaPos)==1){
-                    printf("entrou id");
+                    // printf("entrou id");
                     strcpy(tabelaTipos[tabelaPos], "IDENTIFICADOR");
                 }
-                // else{
+                // else {
                 //     tabelaErroColunas[tabelaPosErr] = coluna+1;
-                //     tabelaErroLinhas[tabelaPosErr] = linha+1;           
-                //     strcpy(tabelaErroTokens[tabelaPosErr], ch);
+                //     tabelaErroLinhas[tabelaPosErr] = linha+1;
+                //     strcpy(tabelaErroTokens[tabelaPosErr], stringAux);
                 //     tabelaPosErr++;
+                //     coluna++;
                 // }
                 
                 tabelaPos++;
@@ -63,28 +64,33 @@ int main(int argc, char *argv[]){
 
             if(verificaAlgarismo(ch)==1){
                 while (verificaAlgarismo(ch)==1 || ch[0]=='.'){
-                    printf("\nch: %c\n", ch[0]);
+                    // printf("\nch: %c\n", ch[0]);
                     stringAux[auxCol] = ch[0];
                     auxCol++;
                     ch[0]=fgetc(arquivo);
                 }
                 stringAux[auxCol] = '\0';
-                printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
-                tabelaColunas[tabelaPos] = coluna+1;
-
-                tabelaLinhas[tabelaPos] = linha+1;
-                strcpy(tabelaTokens[tabelaPos], stringAux);
+                // printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
+                // printf("\nString aux algarismo %s\n", stringAux);
                 if (verificaNumero(stringAux)==1){
+                    tabelaColunas[tabelaPos] = coluna+1;
+                    tabelaLinhas[tabelaPos] = linha+1;
+                    strcpy(tabelaTokens[tabelaPos], stringAux);
                     strcpy(tabelaTipos[tabelaPos], "LITERAL NUMERICO");
+                    tabelaPos++;
+                    coluna = coluna + auxCol;
                 }
-                // else {
-                //     tabelaErroColunas[tabelaPos] = coluna+1;
-                //     tabelaErroLinhas[tabelaPos] = linha+1;
-                // }
+                else {
+                    tabelaErroColunas[tabelaPosErr] = coluna+1;
+                    tabelaErroLinhas[tabelaPosErr] = linha+1;
+                    strcpy(tabelaErroTokens[tabelaPosErr], stringAux);
+                    tabelaPosErr++;
+                    coluna++;
+                }
                 
-                tabelaPos++;
-                coluna = coluna + auxCol;
-                auxCol=0;
+                    auxCol=0;
+                
+                
             }
 
             if(verificaOpAritmetico(ch)!=0){
@@ -106,7 +112,6 @@ int main(int argc, char *argv[]){
             }
 
             else if(verificaSeparador(ch)!=0){
-                printf("IF SEPARADO");
                 tabelaColunas[tabelaPos] = coluna+1;
                 tabelaLinhas[tabelaPos] = linha+1;
                 strcpy(tabelaTokens[tabelaPos], ch);
@@ -127,7 +132,7 @@ int main(int argc, char *argv[]){
                 stringAux[auxCol] = ch[0];
                 auxCol++;
                 stringAux[auxCol] = '\0';
-                printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
+                // printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
                 tabelaColunas[tabelaPos] = coluna+1;
 
                 tabelaLinhas[tabelaPos] = linha+1;
@@ -139,13 +144,13 @@ int main(int argc, char *argv[]){
                 auxCol=0;
             }
 
-            // else if(verificaEspaco(ch)==0){
-            //     tabelaErroColunas[tabelaPosErr] = coluna+1;
-            //     tabelaErroLinhas[tabelaPosErr] = linha+1;
-            //     strcpy(tabelaErroTokens[tabelaPosErr], ch);
-            //     coluna++;
-            //     tabelaPosErr++;
-            // }
+            else if(verificaEspaco(ch)==0){
+                tabelaErroColunas[tabelaPosErr] = coluna+1;
+                tabelaErroLinhas[tabelaPosErr] = linha+1;
+                strcpy(tabelaErroTokens[tabelaPosErr], ch);
+                coluna++;
+                tabelaPosErr++;
+            }
 
         }
         fclose(arquivo);
@@ -157,11 +162,11 @@ int main(int argc, char *argv[]){
 
     }
 
-    // printf("\nErros:\n\n|\tLinha\t|\tColuna\t|\tToken\t|");
-    // for (int i = 0; i < tabelaPosErr; i++){
-    //     printf("\n\n|\t%d\t|\t%d\t|\t%s\t|\n", tabelaErroLinhas[i], tabelaErroColunas[i], tabelaErroTokens[i]);
+    printf("\nErros:\n\n|\tLinha\t|\tColuna\t|\tToken\t|");
+    for (int i = 0; i < tabelaPosErr; i++){
+        printf("\n\n|\t%d\t|\t%d\t|\t%s\t|\n", tabelaErroLinhas[i], tabelaErroColunas[i], tabelaErroTokens[i]);
 
-    // }
+    }
     
     return 0; 
 }

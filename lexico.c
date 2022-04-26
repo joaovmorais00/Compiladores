@@ -11,7 +11,7 @@ int verificaOpLogico(char *string){
 	}
 
 	if(regexec(&reg, string, 0, NULL, 0)==0){
-		printf("Validou\n");
+		// printf("Validou\n");
 		return 1;
 	}else{
 		return 0;
@@ -27,7 +27,7 @@ int verificaOpAritmetico(char *string){
 	}
 
 	if(regexec(&reg, string, 0, NULL, 0)==0){
-		printf("Validou\n");
+		// printf("Validou\n");
 		return 1;
 	}else{
 		return 0;
@@ -41,7 +41,7 @@ int verificaSeparador(char *string){
 		exit(1);
 	}
 	if(regexec(&reg, string, 0, NULL, 0)==0){
-		printf("Validou\n");
+		// printf("Validou\n");
 		return 1;
 	}else{
 		return 0;
@@ -73,8 +73,8 @@ int verificaLetra(char *string){
 	}
 
 	if(regexec(&reg, string, 0, NULL, 0)==0){
-		printf("Entrou");
-		printf("\nLetra\n");
+		// printf("Entrou");
+		// printf("\nLetra\n");
 		return 1;
 	}else{
 		return 0;
@@ -89,7 +89,7 @@ int verificaEspaco(char *string){
 	}
 
 	if(regexec(&reg, string, 0, NULL, 0)==0){
-		printf("Espaco\n");
+		// printf("Espaco\n");
 		return 1;
 	}else{
 		return 0;
@@ -105,8 +105,8 @@ int verificaAlphaNumerico(char *string){
 	}
 
 	if(regexec(&reg, string, 0, NULL, 0)==0){
-		printf("Entrou");
-		printf("\nLetra\n");
+		// printf("Entrou");
+		// printf("\nLetra\n");
 		return 1;
 	}else{
 		return 0;
@@ -122,8 +122,8 @@ int verificaAlgarismo(char *string){
 	}
 
 	if(regexec(&reg, string, 0, NULL, 0)==0){
-		printf("Entrou");
-		printf("\nAlgarismo\n");
+		// printf("Entrou");
+		// printf("\nAlgarismo\n");
 		return 1;
 	}else{
 		return 0;
@@ -139,7 +139,7 @@ int verificaNumero(char *string){
 	}
 
 	if(regexec(&reg, string, 0, NULL, 0)==0){
-		printf("\nNumero\n");
+		// printf("\nNumero\n");
 		return 1;
 	}else{
 		return 0;
@@ -149,7 +149,7 @@ int verificaNumero(char *string){
 
 int verificaTipoVar(char *string){
 	regex_t reg;
-
+	printf("\nentrou verifica var %s\n", string);
 	if (regcomp(&reg , "float$|int$|char$", REG_EXTENDED|REG_NOSUB) != 0) {
 		fprintf(stderr,"erro regcomp\n");
 		exit(1);
