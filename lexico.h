@@ -10,5 +10,5 @@ int verificaOpAritmetico(char *string);
 int verificaSeparador(char *string);
 int verificaPalavraReservada(char *string);
 int verificaLetra(char *string);
-int identificaEspacos(char *string);
+int verificaAlphaNumerico(char *string);
 int verificaEspaco(char *string);

@@ -16,39 +16,63 @@ int main(int argc, char *argv[]){
         ch[1]='\0';
         while(1){
             ch[0]=fgetc(arquivo);
-
+            printf("\nch: %c\n", ch[0]);
             if(ch[0]==EOF) break;
 
-            if(ch[0]=='\n' || ch[0]=='\t'){
+            if(ch[0]=='\n'){
+                coluna=0;
                 linha++;
             }
 
             if(verificaLetra(ch)!=0){
-                printf("entrou2");
-                while (verificaEspaco(ch)==0 && ch[0]!=EOF){
+                while (verificaAlphaNumerico(ch)!=0){
                     stringAux[auxCol] = ch[0];
-                    printf("\nCarac: %c\n", ch[0]);
                     auxCol++;
                     ch[0]=fgetc(arquivo);
                 }
                 stringAux[auxCol] = '\0';
-                tabelaColunas[tabelaPos] = coluna;
+                tabelaColunas[tabelaPos] = coluna+1;
 
-                tabelaLinhas[tabelaPos] = linha;
+                tabelaLinhas[tabelaPos] = linha+1;
                 strcpy(tabelaTokens[tabelaPos], stringAux);
-                printf("\ntabelaTokens %d: %s, stirngAux: %s\n", tabelaPos, tabelaTokens[tabelaPos], stringAux);
                 if (verificaPalavraReservada(stringAux)==1){
                     strcpy(tabelaTipos[tabelaPos], "PALAVRA RESERVADA");
                 }
                 
                 tabelaPos++;
-                coluna=+auxCol;
+                coluna = coluna + auxCol;
+                printf("Coluna: %d, %d aux\n", coluna, auxCol);
                 auxCol=0;
+  
+            }
 
-                if(ch[0]=='\n' || ch[0]=='\t'){
-                    coluna=0;
-                    linha++;
-                }   
+             
+
+            if(verificaOpAritmetico(ch)!=0){
+                tabelaColunas[tabelaPos] = coluna+1;
+                tabelaLinhas[tabelaPos] = linha+1;
+                strcpy(tabelaTokens[tabelaPos], ch);
+                strcpy(tabelaTipos[tabelaPos], "OPERADOR ARITMETICO");
+                tabelaPos++;
+                coluna++;
+            }
+
+            else if(verificaOpLogico(ch)!=0){
+                tabelaColunas[tabelaPos] = coluna+1;
+                tabelaLinhas[tabelaPos] = linha+1;
+                strcpy(tabelaTokens[tabelaPos], ch);
+                strcpy(tabelaTipos[tabelaPos], "OPERADOR LOGICO");
+                tabelaPos++;
+                coluna++;
+            }
+
+            else if(verificaSeparador(ch)!=0){
+                tabelaColunas[tabelaPos] = coluna+1;
+                tabelaLinhas[tabelaPos] = linha+1;
+                strcpy(tabelaTokens[tabelaPos], ch);
+                strcpy(tabelaTipos[tabelaPos], "SEPARADOR");
+                tabelaPos++;
+                coluna++;
             }
 
         }

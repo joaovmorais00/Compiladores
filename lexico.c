@@ -36,8 +36,7 @@ int verificaOpAritmetico(char *string){
 
 int verificaSeparador(char *string){
 	regex_t reg;
-
-	if (regcomp(&reg , "^[\\(\\)\\{\\},;\n\t]$|^\\[$^\\]$", REG_EXTENDED|REG_NOSUB) != 0) {
+	if (regcomp(&reg , "^[\\(\\)\\{\\},;]$|^\\[$^\\]$", REG_EXTENDED|REG_NOSUB) != 0) {
 		fprintf(stderr,"erro regcomp\n");
 		exit(1);
 	}
@@ -98,8 +97,21 @@ int verificaEspaco(char *string){
 	}
 }
 
-// int identificaEspacos(char *string){
+int verificaAlphaNumerico(char *string){
+	regex_t reg;
 
-// }
+	if (regcomp(&reg , "^[a-z0-9_]$", REG_EXTENDED|REG_NOSUB) != 0) {
+		fprintf(stderr,"erro regcomp\n");
+		exit(1);
+	}
+
+	if(regexec(&reg, string, 0, NULL, 0)==0){
+		printf("Entrou");
+		printf("\nLetra\n");
+		return 1;
+	}else{
+		return 0;
+	}
+}
 
 
