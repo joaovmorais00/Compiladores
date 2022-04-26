@@ -26,27 +26,31 @@ int main(int argc, char *argv[]){
 
             if(verificaLetra(ch)!=0){
                 while (verificaAlphaNumerico(ch)!=0){
+                    printf("\nch: %c\n", ch[0]);
                     stringAux[auxCol] = ch[0];
                     auxCol++;
                     ch[0]=fgetc(arquivo);
                 }
                 stringAux[auxCol] = '\0';
+                printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
                 tabelaColunas[tabelaPos] = coluna+1;
 
                 tabelaLinhas[tabelaPos] = linha+1;
                 strcpy(tabelaTokens[tabelaPos], stringAux);
                 if (verificaPalavraReservada(stringAux)==1){
-                    strcpy(tabelaTipos[tabelaPos], "PALAVRA RESERVADA");
+                    char stringTipoToken[50] = "PALAVRA RESERVADA ";
+                    strcat(stringTipoToken, tabelaTokens[tabelaPos]);
+                    strcpy(tabelaTipos[tabelaPos], stringTipoToken);
+                }else if(verificaTipoVar(tabelaTipos[tabelaPos-1])==1 || verificaExistenciaId(stringAux, tabelaTokens, tabelaTipos, tabelaPos)==1){
+                    printf("entrou id");
+                    strcpy(tabelaTipos[tabelaPos], "IDENTIFICADOR");
                 }
                 
                 tabelaPos++;
                 coluna = coluna + auxCol;
-                printf("Coluna: %d, %d aux\n", coluna, auxCol);
                 auxCol=0;
   
             }
-
-             
 
             if(verificaOpAritmetico(ch)!=0){
                 tabelaColunas[tabelaPos] = coluna+1;
@@ -73,6 +77,48 @@ int main(int argc, char *argv[]){
                 strcpy(tabelaTipos[tabelaPos], "SEPARADOR");
                 tabelaPos++;
                 coluna++;
+            }
+
+            else if(ch[0]=='\"'){
+                stringAux[auxCol] = ch[0];
+                auxCol++;
+                while (ch[0]=='\"'){
+                    ch[0]=fgetc(arquivo);
+                    stringAux[auxCol] = ch[0];
+                    auxCol++;
+                }
+                stringAux[auxCol] = '\0';
+                printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
+                tabelaColunas[tabelaPos] = coluna+1;
+
+                tabelaLinhas[tabelaPos] = linha+1;
+                strcpy(tabelaTokens[tabelaPos], stringAux);
+                strcpy(tabelaTipos[tabelaPos], "LITERAL STRING");
+                
+                tabelaPos++;
+                coluna = coluna + auxCol;
+                auxCol=0;
+            }
+
+            else if(ch[0]=='\"'){
+                stringAux[auxCol] = ch[0];
+                auxCol++;
+                while (ch[0]=='\"'){
+                    ch[0]=fgetc(arquivo);
+                    stringAux[auxCol] = ch[0];
+                    auxCol++;
+                }
+                stringAux[auxCol] = '\0';
+                printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
+                tabelaColunas[tabelaPos] = coluna+1;
+
+                tabelaLinhas[tabelaPos] = linha+1;
+                strcpy(tabelaTokens[tabelaPos], stringAux);
+                strcpy(tabelaTipos[tabelaPos], "LITERAL STRING");
+                
+                tabelaPos++;
+                coluna = coluna + auxCol;
+                auxCol=0;
             }
 
         }
