@@ -100,13 +100,12 @@ int main(int argc, char *argv[]){
                 auxCol=0;
             }
 
-            else if(ch[0]=='\"'){
-                stringAux[auxCol] = ch[0];
-                auxCol++;
-                while (ch[0]=='\"'){
-                    ch[0]=fgetc(arquivo);
+            else if(verificaAlgarismo(ch)==1){
+                while (verificaAlgarismo(ch)!=0 || ch[0]=='.'){
+                    printf("\nch: %c\n", ch[0]);
                     stringAux[auxCol] = ch[0];
                     auxCol++;
+                    ch[0]=fgetc(arquivo);
                 }
                 stringAux[auxCol] = '\0';
                 printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
@@ -114,11 +113,21 @@ int main(int argc, char *argv[]){
 
                 tabelaLinhas[tabelaPos] = linha+1;
                 strcpy(tabelaTokens[tabelaPos], stringAux);
-                strcpy(tabelaTipos[tabelaPos], "LITERAL STRING");
+                if (verificaNumero(stringAux)==1){
+                    strcpy(tabelaTipos[tabelaPos], "LITERAL NUMERICO");
+                }else {
+                    strcpy(tabelaTipos[tabelaPos], "TOKEN INVALIDO");
+                }
                 
                 tabelaPos++;
                 coluna = coluna + auxCol;
                 auxCol=0;
+            }
+
+            else{
+                tabelaColunas[tabelaPos] = coluna+1;
+
+                tabelaLinhas[tabelaPos] = linha+1;
             }
 
         }

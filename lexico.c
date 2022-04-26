@@ -114,7 +114,7 @@ int verificaAlphaNumerico(char *string){
 	}
 }
 
-int verificaNumero(char *string){
+int verificaAlgarismo(char *string){
 	regex_t reg;
 
 	if (regcomp(&reg , "^[0-9]$", REG_EXTENDED|REG_NOSUB) != 0) {
@@ -124,6 +124,22 @@ int verificaNumero(char *string){
 
 	if(regexec(&reg, string, 0, NULL, 0)==0){
 		printf("Entrou");
+		printf("\nAlgarismo\n");
+		return 1;
+	}else{
+		return 0;
+	}
+}
+
+int verificaNumero(char *string){
+	regex_t reg;
+
+	if (regcomp(&reg , "^[0-9]+\\.[0-9]+$|^[0-9]+$", REG_EXTENDED|REG_NOSUB) != 0) {
+		fprintf(stderr,"erro regcomp\n");
+		exit(1);
+	}
+
+	if(regexec(&reg, string, 0, NULL, 0)==0){
 		printf("\nNumero\n");
 		return 1;
 	}else{
