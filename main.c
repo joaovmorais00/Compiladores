@@ -32,6 +32,7 @@ int main(int argc, char *argv[]){
                     stringAux[auxCol] = ch[0];
                     auxCol++;
                     ch[0]=fgetc(arquivo);
+                    printf("\n%c depois\n", ch[0]);
                 }
                 stringAux[auxCol] = '\0';
                 printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
@@ -58,6 +59,32 @@ int main(int argc, char *argv[]){
                 coluna = coluna + auxCol;
                 auxCol=0;
   
+            }
+
+            if(verificaAlgarismo(ch)==1){
+                while (verificaAlgarismo(ch)==1 || ch[0]=='.'){
+                    printf("\nch: %c\n", ch[0]);
+                    stringAux[auxCol] = ch[0];
+                    auxCol++;
+                    ch[0]=fgetc(arquivo);
+                }
+                stringAux[auxCol] = '\0';
+                printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
+                tabelaColunas[tabelaPos] = coluna+1;
+
+                tabelaLinhas[tabelaPos] = linha+1;
+                strcpy(tabelaTokens[tabelaPos], stringAux);
+                if (verificaNumero(stringAux)==1){
+                    strcpy(tabelaTipos[tabelaPos], "LITERAL NUMERICO");
+                }
+                // else {
+                //     tabelaErroColunas[tabelaPos] = coluna+1;
+                //     tabelaErroLinhas[tabelaPos] = linha+1;
+                // }
+                
+                tabelaPos++;
+                coluna = coluna + auxCol;
+                auxCol=0;
             }
 
             if(verificaOpAritmetico(ch)!=0){
@@ -106,32 +133,6 @@ int main(int argc, char *argv[]){
                 tabelaLinhas[tabelaPos] = linha+1;
                 strcpy(tabelaTokens[tabelaPos], stringAux);
                 strcpy(tabelaTipos[tabelaPos], "LITERAL STRING");
-                
-                tabelaPos++;
-                coluna = coluna + auxCol;
-                auxCol=0;
-            }
-
-            else if(verificaAlgarismo(ch)==1){
-                while (verificaAlgarismo(ch)!=0 || ch[0]=='.'){
-                    printf("\nch: %c\n", ch[0]);
-                    stringAux[auxCol] = ch[0];
-                    auxCol++;
-                    ch[0]=fgetc(arquivo);
-                }
-                stringAux[auxCol] = '\0';
-                printf("Coluna: %d, %d aux  %s\n", coluna, auxCol, stringAux);
-                tabelaColunas[tabelaPos] = coluna+1;
-
-                tabelaLinhas[tabelaPos] = linha+1;
-                strcpy(tabelaTokens[tabelaPos], stringAux);
-                if (verificaNumero(stringAux)==1){
-                    strcpy(tabelaTipos[tabelaPos], "LITERAL NUMERICO");
-                }
-                // else {
-                //     tabelaErroColunas[tabelaPos] = coluna+1;
-                //     tabelaErroLinhas[tabelaPos] = linha+1;
-                // }
                 
                 tabelaPos++;
                 coluna = coluna + auxCol;
